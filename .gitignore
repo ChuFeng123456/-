@@ -1,0 +1,7 @@
+# 中间文件与临时目录
+/tmp/
+/_build/
+/产品经理作品集/_render/
+__pycache__/
+*.pyc
+*.inspect.ndjson

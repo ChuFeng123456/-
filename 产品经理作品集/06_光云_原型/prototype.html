@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>电商SaaS订单与库存模块 - 交互原型</title>
+<style>
+  :root{
+    --bg:#f4f6fa; --panel:#ffffff; --line:#e4e8f0; --text:#1f2937; --muted:#6b7280;
+    --primary:#1f5feb; --primary-weak:#eaf1ff; --ok:#0e9f6e; --warn:#d97706; --bad:#dc2626;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--text); font-size:14px;}
+  .app{display:grid; grid-template-columns:216px 1fr; min-height:100vh;}
+  .side{background:#101a2e; color:#cbd5e1; padding:18px 12px;}
+  .side .brand{color:#fff; font-size:17px; font-weight:700; padding:6px 10px 18px; letter-spacing:.5px;}
+  .side .brand span{color:#7fa7ff;}
+  .nav a{display:block; color:#cbd5e1; text-decoration:none; padding:10px 12px; border-radius:8px; margin:3px 0; cursor:pointer;}
+  .nav a:hover{background:#1d2b45;}
+  .nav a.active{background:var(--primary); color:#fff;}
+  .main{padding:20px 24px; overflow:auto;}
+  .topbar{display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;}
+  .topbar h1{font-size:20px; font-weight:700;}
+  .topbar .meta{color:var(--muted); font-size:12px;}
+  .page{display:none;}
+  .page.active{display:block;}
+  .grid{display:grid; gap:14px;}
+  .kpis{grid-template-columns:repeat(4,1fr);}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px;}
+  .kpi .label{color:var(--muted); font-size:12px;}
+  .kpi .value{font-size:26px; font-weight:700; margin-top:6px;}
+  .kpi .delta{font-size:12px; margin-top:4px;}
+  .up{color:var(--ok);} .down{color:var(--bad);}
+  h2.sec{font-size:15px; font-weight:700; margin:0 0 12px;}
+  table{width:100%; border-collapse:collapse; background:var(--panel); border:1px solid var(--line); border-radius:10px; overflow:hidden;}
+  th,td{padding:10px 12px; text-align:left; border-bottom:1px solid var(--line); font-size:13px;}
+  th{background:#f7f9fc; color:#475569; font-weight:600; white-space:nowrap;}
+  tr:last-child td{border-bottom:none;}
+  .tag{display:inline-block; padding:2px 9px; border-radius:20px; font-size:12px;}
+  .tag.ok{background:#e7f7f0; color:var(--ok);} .tag.warn{background:#fdf1e3; color:var(--warn);} .tag.bad{background:#fdeaea; color:var(--bad);}
+  .tag.info{background:var(--primary-weak); color:var(--primary);}
+  .btn{display:inline-block; padding:8px 14px; border-radius:8px; background:var(--primary); color:#fff; border:none; cursor:pointer; font-size:13px; text-decoration:none;}
+  .btn.ghost{background:#fff; color:var(--primary); border:1px solid var(--primary);}
+  .toolbar{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:14px;}
+  .toolbar select,.toolbar input{height:36px; padding:0 10px; border:1px solid var(--line); border-radius:8px; background:#fff; font-size:13px;}
+  .toolbar input{width:200px;}
+  .split{grid-template-columns:1.4fr 1fr;}
+  .timeline{list-style:none; padding-left:0;}
+  .timeline li{position:relative; padding:0 0 18px 20px; border-left:2px solid var(--line);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline li::before{content:""; position:absolute; left:-5px; top:2px; width:8px; height:8px; border-radius:50%; background:var(--primary);}
+  .bars{display:flex; align-items:flex-end; gap:10px; height:180px; padding:0 6px;}
+  .bars .bar{flex:1; background:var(--primary); border-radius:6px 6px 0 0; position:relative; min-width:18px;}
+  .bars .bar span{position:absolute; top:-20px; left:50%; transform:translateX(-50%); font-size:11px; color:var(--muted);}
+  .footer{margin-top:24px; color:var(--muted); font-size:12px; text-align:center;}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand">光云 · <span>订单与库存</span></div>
+    <nav class="nav" id="nav">
+      <a data-page="login">登录页</a>
+      <a data-page="dashboard" class="active">工作台</a>
+      <a data-page="orders">订单列表</a>
+      <a data-page="order-detail">订单详情</a>
+      <a data-page="batch-ship">批量打单</a>
+      <a data-page="inventory">库存列表</a>
+      <a data-page="reconcile">库存同步 / 对账</a>
+      <a data-page="stocktake">库存盘点</a>
+      <a data-page="alerts">缺货与异常预警</a>
+      <a data-page="alert-settings">预警设置</a>
+      <a data-page="messages">消息中心</a>
+      <a data-page="analytics">数据看板</a>
+      <a data-page="help">帮助中心</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h1 id="page-title">工作台</h1>
+      <div class="meta">光云科技 · 电商SaaS订单与库存模块 · 交互原型 V1.0</div>
+    </div>
+
+    <section class="page active" id="dashboard">
+      <div class="grid kpis">
+        <div class="card kpi"><div class="label">今日订单</div><div class="value">1,284</div><div class="delta up">较昨日 +8.2%</div></div>
+        <div class="card kpi"><div class="label">待发货</div><div class="value">326</div><div class="delta up">较昨日 -3.4%</div></div>
+        <div class="card kpi"><div class="label">库存预警</div><div class="value">17</div><div class="delta down">需要处理</div></div>
+        <div class="card kpi"><div class="label">对账差异</div><div class="value">5</div><div class="delta warn">待确认</div></div>
+      </div>
+      <div class="grid split" style="margin-top:14px;">
+        <div class="card">
+          <h2 class="sec">待办提醒</h2>
+          <table>
+            <tr><th>类型</th><th>内容</th><th>时间</th></tr>
+            <tr><td><span class="tag warn">缺货</span></td><td>SKU 100238 库存低于阈值</td><td>10:24</td></tr>
+            <tr><td><span class="tag bad">同步失败</span></td><td>拼多多平台库存同步失败</td><td>09:58</td></tr>
+            <tr><td><span class="tag info">对账</span></td><td>抖音平台库存差异 3 条</td><td>09:31</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <h2 class="sec">快捷入口</h2>
+          <div class="toolbar">
+            <a class="btn" onclick="go('orders')">去处理订单</a>
+            <a class="btn ghost" onclick="go('inventory')">同步库存</a>
+            <a class="btn ghost" onclick="go('alerts')">查看预警</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="orders">
+      <div class="toolbar">
+        <select><option>全部平台</option><option>淘宝</option><option>天猫</option><option>京东</option><option>拼多多</option><option>抖音电商</option><option>快手电商</option></select>
+        <select><option>全部状态</option><option>待付款</option><option>待发货</option><option>已发货</option><option>退款中</option></select>
+        <input placeholder="搜索订单号 / 买家 / 商品">
+        <a class="btn">查询</a><a class="btn ghost">批量打单</a>
+      </div>
+      <table>
+        <tr><th>订单号</th><th>平台</th><th>商品</th><th>金额</th><th>状态</th><th>下单时间</th><th>操作</th></tr>
+        <tr><td>TB20261117001</td><td>淘宝</td><td>保温杯 x2</td><td>¥158.00</td><td><span class="tag warn">待发货</span></td><td>09:12</td><td><a class="btn ghost" onclick="go('order-detail')">查看</a></td></tr>
+        <tr><td>JD20261117008</td><td>京东</td><td>无线耳机 x1</td><td>¥399.00</td><td><span class="tag ok">已发货</span></td><td>08:47</td><td><a class="btn ghost" onclick="go('order-detail')">查看</a></td></tr>
+        <tr><td>PDD20261117015</td><td>拼多多</td><td>数据线 x5</td><td>¥49.50</td><td><span class="tag bad">退款中</span></td><td>08:30</td><td><a class="btn ghost" onclick="go('order-detail')">查看</a></td></tr>
+        <tr><td>DY20261117021</td><td>抖音电商</td><td>收纳盒 x3</td><td>¥89.70</td><td><span class="tag info">待付款</span></td><td>08:02</td><td><a class="btn ghost" onclick="go('order-detail')">查看</a></td></tr>
+      </table>
+      <div class="footer">共 1,284 条订单 · 第 1 / 64 页</div>
+    </section>
+
+    <section class="page" id="order-detail">
+      <div class="grid split">
+        <div class="card">
+          <h2 class="sec">订单信息</h2>
+          <table>
+            <tr><th style="width:100px">订单号</th><td>TB20261117001</td></tr>
+            <tr><th>平台</th><td>淘宝</td></tr>
+            <tr><th>买家</th><td>张**</td></tr>
+            <tr><th>收货地址</th><td>广东省深圳市南山区 · 张** 138****</td></tr>
+            <tr><th>买家留言</th><td>请尽快发货</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <h2 class="sec">状态时间线</h2>
+          <ul class="timeline">
+            <li>09:12 买家下单</li>
+            <li>09:12 订单已归集</li>
+            <li>待发货</li>
+          </ul>
+          <div class="toolbar" style="margin-top:10px;">
+            <a class="btn">确认发货</a><a class="btn ghost">备注</a>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px;">
+        <h2 class="sec">商品明细</h2>
+        <table>
+          <tr><th>SKU</th><th>商品</th><th>单价</th><th>数量</th><th>小计</th></tr>
+          <tr><td>100238</td><td>保温杯 500ml</td><td>¥79.00</td><td>2</td><td>¥158.00</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section class="page" id="inventory">
+      <div class="toolbar">
+        <select><option>全部平台</option><option>淘宝</option><option>京东</option><option>拼多多</option></select>
+        <input placeholder="搜索 SKU / 商品名称">
+        <a class="btn">查询</a><a class="btn ghost">批量同步</a>
+      </div>
+      <table>
+        <tr><th>SKU</th><th>商品</th><th>仓库</th><th>淘宝</th><th>京东</th><th>拼多多</th><th>可用库存</th><th>状态</th></tr>
+        <tr><td>100238</td><td>保温杯 500ml</td><td>主仓</td><td>120</td><td>86</td><td>54</td><td>260</td><td><span class="tag ok">正常</span></td></tr>
+        <tr><td>100301</td><td>无线耳机</td><td>主仓</td><td>18</td><td>12</td><td>9</td><td>39</td><td><span class="tag warn">偏低</span></td></tr>
+        <tr><td>100455</td><td>数据线 1m</td><td>次仓</td><td>320</td><td>200</td><td>180</td><td>700</td><td><span class="tag ok">正常</span></td></tr>
+      </table>
+      <div class="footer">共 2,340 个 SKU</div>
+    </section>
+
+    <section class="page" id="reconcile">
+      <div class="grid split">
+        <div class="card">
+          <h2 class="sec">最近同步记录</h2>
+          <table>
+            <tr><th>时间</th><th>平台</th><th>SKU</th><th>结果</th></tr>
+            <tr><td>10:20</td><td>淘宝</td><td>100238</td><td><span class="tag ok">成功</span></td></tr>
+            <tr><td>10:19</td><td>拼多多</td><td>100238</td><td><span class="tag bad">失败</span></td></tr>
+            <tr><td>10:15</td><td>京东</td><td>100301</td><td><span class="tag ok">成功</span></td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <h2 class="sec">对账差异</h2>
+          <table>
+            <tr><th>平台</th><th>平台库存</th><th>本地库存</th><th>差异</th></tr>
+            <tr><td>抖音电商</td><td>42</td><td>45</td><td><span class="tag warn">+3</span></td></tr>
+            <tr><td>拼多多</td><td>50</td><td>54</td><td><span class="tag warn">+4</span></td></tr>
+          </table>
+          <div class="toolbar" style="margin-top:10px;"><a class="btn">一键修正</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="alerts">
+      <div class="toolbar">
+        <select><option>全部类型</option><option>缺货预警</option><option>同步失败</option><option>退款异常</option></select>
+        <select><option>全部状态</option><option>待处理</option><option>已处理</option></select>
+      </div>
+      <table>
+        <tr><th>类型</th><th>对象</th><th>说明</th><th>时间</th><th>状态</th><th>操作</th></tr>
+        <tr><td><span class="tag warn">缺货预警</span></td><td>SKU 100301</td><td>可用库存低于安全阈值</td><td>10:24</td><td><span class="tag warn">待处理</span></td><td><a class="btn ghost">处理</a></td></tr>
+        <tr><td><span class="tag bad">同步失败</span></td><td>拼多多 · 100238</td><td>平台接口返回超时</td><td>09:58</td><td><span class="tag warn">待处理</span></td><td><a class="btn ghost">重试</a></td></tr>
+        <tr><td><span class="tag bad">退款异常</span></td><td>PDD20261117015</td><td>退款金额与订单不一致</td><td>08:30</td><td><span class="tag ok">已处理</span></td><td><a class="btn ghost">查看</a></td></tr>
+      </table>
+    </section>
+
+    <section class="page" id="analytics">
+      <div class="grid kpis">
+        <div class="card kpi"><div class="label">近30天订单</div><div class="value">36,420</div><div class="delta up">+12.5%</div></div>
+        <div class="card kpi"><div class="label">库存同步成功率</div><div class="value">99.5%</div><div class="delta up">+0.3pp</div></div>
+        <div class="card kpi"><div class="label">缺货预警及时率</div><div class="value">96.2%</div><div class="delta up">+1.1pp</div></div>
+        <div class="card kpi"><div class="label">对账差异率</div><div class="value">0.8%</div><div class="delta down">-0.2pp</div></div>
+      </div>
+      <div class="card" style="margin-top:14px;">
+        <h2 class="sec">近7日订单量</h2>
+        <div class="bars">
+          <div class="bar" style="height:42%"><span>11-11</span></div>
+          <div class="bar" style="height:58%"><span>11-12</span></div>
+          <div class="bar" style="height:50%"><span>11-13</span></div>
+          <div class="bar" style="height:72%"><span>11-14</span></div>
+          <div class="bar" style="height:66%"><span>11-15</span></div>
+          <div class="bar" style="height:88%"><span>11-16</span></div>
+          <div class="bar" style="height:100%"><span>11-17</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="login">
+      <div class="card" style="max-width:420px; margin:40px auto;">
+        <h2 class="sec">登录工作台</h2>
+        <div class="toolbar" style="flex-direction:column; align-items:stretch;">
+          <input placeholder="手机号 / 邮箱" style="width:100%;">
+          <input placeholder="密码" type="password" style="width:100%;">
+          <a class="btn" style="text-align:center;" onclick="go('dashboard')">登录</a>
+          <a class="btn ghost" style="text-align:center;">找回密码</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="batch-ship">
+      <div class="toolbar">
+        <select><option>全部平台</option><option>淘宝</option><option>京东</option><option>拼多多</option></select>
+        <a class="btn">生成快递单</a><a class="btn ghost">选择模板</a>
+      </div>
+      <table>
+        <tr><th><input type="checkbox"></th><th>订单号</th><th>平台</th><th>商品</th><th>收货人</th><th>状态</th></tr>
+        <tr><td><input type="checkbox" checked></td><td>TB20261117001</td><td>淘宝</td><td>保温杯 x2</td><td>张**</td><td><span class="tag ok">可打单</span></td></tr>
+        <tr><td><input type="checkbox" checked></td><td>JD20261117008</td><td>京东</td><td>无线耳机 x1</td><td>李**</td><td><span class="tag ok">可打单</span></td></tr>
+        <tr><td><input type="checkbox"></td><td>PDD20261117015</td><td>拼多多</td><td>数据线 x5</td><td>王**</td><td><span class="tag warn">地址待核</span></td></tr>
+      </table>
+      <div class="footer">已选 2 单 · 可批量生成面单</div>
+    </section>
+
+    <section class="page" id="stocktake">
+      <div class="toolbar">
+        <select><option>主仓</option><option>次仓</option></select>
+        <input placeholder="搜索 SKU">
+        <a class="btn">开始盘点</a><a class="btn ghost">导入盘点单</a>
+      </div>
+      <table>
+        <tr><th>SKU</th><th>商品</th><th>系统库存</th><th>实盘库存</th><th>差异</th><th>状态</th></tr>
+        <tr><td>100238</td><td>保温杯 500ml</td><td>260</td><td>258</td><td>-2</td><td><span class="tag warn">待确认</span></td></tr>
+        <tr><td>100301</td><td>无线耳机</td><td>39</td><td>39</td><td>0</td><td><span class="tag ok">一致</span></td></tr>
+        <tr><td>100455</td><td>数据线 1m</td><td>700</td><td>705</td><td>+5</td><td><span class="tag warn">待确认</span></td></tr>
+      </table>
+    </section>
+
+    <section class="page" id="alert-settings">
+      <div class="grid split">
+        <div class="card">
+          <h2 class="sec">预警规则</h2>
+          <table>
+            <tr><th>规则</th><th>阈值</th><th>状态</th></tr>
+            <tr><td>低库存预警</td><td>可用库存 &lt; 安全库存</td><td><span class="tag ok">启用</span></td></tr>
+            <tr><td>同步失败预警</td><td>连续失败 3 次</td><td><span class="tag ok">启用</span></td></tr>
+            <tr><td>退款异常预警</td><td>金额不一致</td><td><span class="tag ok">启用</span></td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <h2 class="sec">通知方式</h2>
+          <table>
+            <tr><th>渠道</th><th>状态</th></tr>
+            <tr><td>站内消息</td><td><span class="tag ok">启用</span></td></tr>
+            <tr><td>短信</td><td><span class="tag info">未绑定</span></td></tr>
+            <tr><td>企业微信</td><td><span class="tag info">未绑定</span></td></tr>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="messages">
+      <div class="toolbar">
+        <select><option>全部消息</option><option>未读</option><option>预警</option><option>系统</option></select>
+        <a class="btn ghost">全部标为已读</a>
+      </div>
+      <table>
+        <tr><th>时间</th><th>类型</th><th>内容</th><th>状态</th></tr>
+        <tr><td>10:24</td><td><span class="tag warn">预警</span></td><td>SKU 100301 库存低于安全阈值</td><td><span class="tag warn">未读</span></td></tr>
+        <tr><td>09:58</td><td><span class="tag bad">预警</span></td><td>拼多多平台库存同步失败</td><td><span class="tag warn">未读</span></td></tr>
+        <tr><td>昨天</td><td><span class="tag info">系统</span></td><td>11月月度对账已完成</td><td><span class="tag ok">已读</span></td></tr>
+      </table>
+    </section>
+
+    <section class="page" id="help">
+      <div class="grid split">
+        <div class="card">
+          <h2 class="sec">常见问题</h2>
+          <table>
+            <tr><th>问题</th><th>分类</th></tr>
+            <tr><td>如何接入新平台？</td><td>接入配置</td></tr>
+            <tr><td>库存同步失败怎么办？</td><td>库存管理</td></tr>
+            <tr><td>如何批量生成快递单？</td><td>订单管理</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <h2 class="sec">联系支持</h2>
+          <p>在线客服：工作日 9:00-18:00</p>
+          <p>帮助文档：help.raycloud.example</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  const titles = {
+    login:"登录页", dashboard:"工作台", orders:"订单列表", "order-detail":"订单详情",
+    "batch-ship":"批量打单", inventory:"库存列表", reconcile:"库存同步 / 对账",
+    stocktake:"库存盘点", alerts:"缺货与异常预警", "alert-settings":"预警设置",
+    messages:"消息中心", analytics:"数据看板", help:"帮助中心"
+  };
+  function show(name){
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    document.getElementById(name).classList.add("active");
+    document.querySelectorAll(".nav a").forEach(a=>a.classList.toggle("active", a.dataset.page===name));
+    document.getElementById("page-title").textContent = titles[name];
+  }
+  function go(name){ show(name); }
+  document.getElementById("nav").addEventListener("click", e=>{
+    const a = e.target.closest("a"); if(a) show(a.dataset.page);
+  });
+  const hash = (location.hash || "#dashboard").slice(1);
+  if(titles[hash]) show(hash);
+</script>
+</body>
+</html>

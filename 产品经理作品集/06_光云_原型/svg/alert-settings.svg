@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+<rect width="1440" height="900" fill="#f4f6fa"/>
+<rect width="216" height="900" fill="#101a2e"/>
+<text x="20" y="34" fill="#ffffff" font-size="18" font-weight="700">光云 · 订单与库存</text>
+<rect x="12" y="70" width="192" height="36" rx="8" fill="none"/>
+<text x="26" y="93" fill="#cbd5e1" font-size="14">登录页</text>
+<rect x="12" y="114" width="192" height="36" rx="8" fill="none"/>
+<text x="26" y="137" fill="#cbd5e1" font-size="14">工作台</text>
+<rect x="12" y="158" width="192" height="36" rx="8" fill="none"/>
+<text x="26" y="181" fill="#cbd5e1" font-size="14">订单列表</text>
+<rect x="12" y="202" width="192" height="36" rx="8" fill="none"/>
+<text x="26" y="225" fill="#cbd5e1" font-size="14">订单详情</text>
+<rect x="12" y="246" width="192" height="36" rx="8" fill="none"/>
+<text x="26" y="269" fill="#cbd5e1" font-size="14">批量打单</text>
+<rect x="12" y="290" width="192" height="36" rx="8" fill="none"/>
+<text x="26" y="313" fill="#cbd5e1" font-size="14">库存列表</text>
+<rect x="12" y="334" width="192" height="36" rx="8" fill="none"/>
+<text x="26" y="357" fill="#cbd5e1" font-size="14">库存同步 / 对账</text>
+<rect x="12" y="378" width="192" height="36" rx="8" fill="none"/>
+<text x="26" y="401" fill="#cbd5e1" font-size="14">库存盘点</text>
+<rect x="12" y="422" width="192" height="36" rx="8" fill="none"/>
+<text x="26" y="445" fill="#cbd5e1" font-size="14">缺货与异常预警</text>
+<rect x="12" y="466" width="192" height="36" rx="8" fill="#1f5feb"/>
+<text x="26" y="489" fill="#1f5feb" font-size="14">预警设置</text>
+<rect x="12" y="510" width="192" height="36" rx="8" fill="none"/>
+<text x="26" y="533" fill="#cbd5e1" font-size="14">消息中心</text>
+<rect x="12" y="554" width="192" height="36" rx="8" fill="none"/>
+<text x="26" y="577" fill="#cbd5e1" font-size="14">数据看板</text>
+<rect x="12" y="598" width="192" height="36" rx="8" fill="none"/>
+<text x="26" y="621" fill="#cbd5e1" font-size="14">帮助中心</text>
+<rect x="216" y="0" width="1224" height="64" fill="#ffffff" stroke="#e4e8f0"/>
+<text x="240" y="40" fill="#1f2937" font-size="20" font-weight="700">预警设置</text>
+<text x="1120" y="40" fill="#6b7280" font-size="12">光云科技 · 订单与库存模块 · 线框 V1.0</text>
+<rect x="234" y="100" width="680" height="500" rx="10" fill="#ffffff" stroke="#e4e8f0"/>
+<text x="252" y="128" fill="#1f2937" font-size="15" font-weight="700">预警规则</text>
+<rect x="246" y="146" width="656" height="24" rx="4" fill="#f2f5fa"/>
+<line x1="246" y1="176" x2="902" y2="176" stroke="#e4e8f0"/>
+<rect x="246" y="180" width="656" height="24" rx="4" fill="#f2f5fa"/>
+<line x1="246" y1="210" x2="902" y2="210" stroke="#e4e8f0"/>
+<rect x="246" y="214" width="656" height="24" rx="4" fill="#f2f5fa"/>
+<line x1="246" y1="244" x2="902" y2="244" stroke="#e4e8f0"/>
+<rect x="246" y="248" width="656" height="24" rx="4" fill="#f2f5fa"/>
+<line x1="246" y1="278" x2="902" y2="278" stroke="#e4e8f0"/>
+<rect x="934" y="100" width="670" height="500" rx="10" fill="#ffffff" stroke="#e4e8f0"/>
+<text x="952" y="128" fill="#1f2937" font-size="15" font-weight="700">通知方式</text>
+<rect x="946" y="146" width="646" height="24" rx="4" fill="#f2f5fa"/>
+<line x1="946" y1="176" x2="1592" y2="176" stroke="#e4e8f0"/>
+<rect x="946" y="180" width="646" height="24" rx="4" fill="#f2f5fa"/>
+<line x1="946" y1="210" x2="1592" y2="210" stroke="#e4e8f0"/>
+<rect x="946" y="214" width="646" height="24" rx="4" fill="#f2f5fa"/>
+<line x1="946" y1="244" x2="1592" y2="244" stroke="#e4e8f0"/>
+<rect x="946" y="248" width="646" height="24" rx="4" fill="#f2f5fa"/>
+<line x1="946" y1="278" x2="1592" y2="278" stroke="#e4e8f0"/>
+</svg>

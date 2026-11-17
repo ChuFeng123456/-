@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>开黑搭子 · 交互原型</title>
+<style>
+  :root{
+    --bg:#0d0b1a; --panel:#151226; --line:#2a2342; --text:#e8e6f5; --muted:#8f89ad;
+    --cyan:#00e5ff; --magenta:#ff2ec4; --ok:#31e58f; --warn:#ffb020; --bad:#ff4d6d;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--text); font-size:14px;}
+  .app{display:grid; grid-template-columns:224px 1fr; min-height:100vh;}
+  .side{background:#0a0816; padding:18px 12px; border-right:1px solid var(--line);}
+  .side .brand{font-size:18px; font-weight:800; padding:6px 10px 16px; letter-spacing:1px;}
+  .side .brand b{color:var(--cyan);} .side .brand i{color:var(--magenta); font-style:normal;}
+  .group{color:var(--muted); font-size:11px; margin:12px 10px 4px; letter-spacing:1px;}
+  .nav a{display:block; color:#cfcae8; text-decoration:none; padding:9px 12px; border-radius:8px; margin:2px 0; cursor:pointer; font-size:13px;}
+  .nav a:hover{background:#1a1530;}
+  .nav a.active{background:linear-gradient(90deg, rgba(0,229,255,.18), rgba(255,46,196,.18)); color:#fff; border:1px solid rgba(0,229,255,.4);}
+  .main{padding:20px 24px;}
+  .topbar{display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;}
+  .topbar h1{font-size:20px; font-weight:800;}
+  .topbar .meta{color:var(--muted); font-size:12px;}
+  .page{display:none;} .page.active{display:block;}
+  .grid{display:grid; gap:14px;}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px;}
+  h2.sec{font-size:15px; font-weight:700; margin-bottom:12px;}
+  table{width:100%; border-collapse:collapse; background:var(--panel); border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+  th,td{padding:11px 12px; text-align:left; border-bottom:1px solid var(--line); font-size:13px;}
+  th{background:#19142c; color:#b8b2d8; font-weight:600;}
+  tr:last-child td{border-bottom:none;}
+  .tag{display:inline-block; padding:2px 9px; border-radius:20px; font-size:12px;}
+  .tag.ok{background:rgba(49,229,143,.15); color:var(--ok);} .tag.warn{background:rgba(255,176,32,.15); color:var(--warn);} .tag.bad{background:rgba(255,77,109,.15); color:var(--bad);}
+  .tag.info{background:rgba(0,229,255,.15); color:var(--cyan);}
+  .btn{display:inline-block; padding:9px 16px; border-radius:10px; background:linear-gradient(90deg,#00e5ff,#4f7bff); color:#071018; font-weight:700; border:none; cursor:pointer; text-decoration:none; font-size:13px;}
+  .btn.ghost{background:transparent; color:var(--cyan); border:1px solid var(--cyan);}
+  .toolbar{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:14px;}
+  .toolbar input,.toolbar select{height:38px; padding:0 12px; background:#0e0b1c; border:1px solid var(--line); border-radius:9px; color:#fff; font-size:13px;}
+  .toolbar input{width:220px;}
+  .cafe{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  .cafe .card{position:relative;}
+  .cafe .online{position:absolute; right:16px; top:16px; font-size:12px; color:var(--cyan);}
+  .bubble{max-width:70%; padding:10px 14px; border-radius:14px; margin-bottom:10px; font-size:13px; line-height:1.5;}
+  .bubble.me{margin-left:auto; background:rgba(0,229,255,.16);}
+  .bubble.you{background:#1d1734;}
+  .chip{display:inline-block; padding:4px 10px; margin:4px 6px 0 0; border-radius:16px; border:1px solid var(--line); font-size:12px; color:#cfcae8;}
+  .placeholder{text-align:center; padding:60px 20px; color:var(--muted); border:1px dashed var(--line); border-radius:14px;}
+  .placeholder .big{font-size:22px; color:var(--cyan); margin-bottom:8px;}
+  .footer{margin-top:20px; color:var(--muted); font-size:12px; text-align:center;}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><b>开黑</b>搭<i>子</i></div>
+    <div class="group">核心流程</div>
+    <nav class="nav" id="nav">
+      <a data-page="login" class="active">登录授权</a>
+      <a data-page="cafe">选网吧</a>
+      <a data-page="match">随机匹配</a>
+      <a data-page="chat">匿名聊天</a>
+      <a data-page="profile">个人资料</a>
+      <a data-page="admin">管理后台</a>
+    </nav>
+    <div class="group">二期占位</div>
+    <nav class="nav" id="nav2">
+      <a data-page="voice">语音消息</a>
+      <a data-page="merchant">吧主入驻</a>
+      <a data-page="moments">图片动态</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h1 id="page-title">登录授权</h1>
+      <div class="meta">开黑搭子 · 微信小程序原型 · 赛博朋克风</div>
+    </div>
+
+    <section class="page active" id="login">
+      <div class="card" style="max-width:400px; margin:60px auto; text-align:center;">
+        <h2 class="sec" style="font-size:22px;">在家自己玩<br>在网吧匹配同网吧搭子</h2>
+        <div class="btn" style="width:100%; margin-top:18px;" onclick="go('cafe')">微信一键登录</div>
+        <p style="color:var(--muted); font-size:12px; margin-top:14px;">登录即表示同意《用户协议》与《隐私政策》</p>
+      </div>
+    </section>
+
+    <section class="page" id="cafe">
+      <div class="toolbar"><input placeholder="搜索网吧名称 / 地址"><a class="btn">搜索</a></div>
+      <div class="cafe">
+        <div class="card"><div class="online">在线 8</div><h2 class="sec">极客电竞馆（科技园店）</h2><p style="color:var(--muted); font-size:12px;">南山区科苑路 · 距你 300m</p><div class="btn ghost" style="margin-top:12px;" onclick="go('match')">加入并匹配</div></div>
+        <div class="card"><div class="online">在线 3</div><h2 class="sec">网鱼网咖（海岸城店）</h2><p style="color:var(--muted); font-size:12px;">南山区文心五路 · 距你 1.2km</p><div class="btn ghost" style="margin-top:12px;" onclick="go('match')">加入并匹配</div></div>
+        <div class="card"><div class="online">在线 1</div><h2 class="sec">极速网咖（大学城店）</h2><p style="color:var(--muted); font-size:12px;">南山区留仙大道 · 距你 2.8km</p><div class="btn ghost" style="margin-top:12px;" onclick="go('match')">加入并匹配</div></div>
+      </div>
+    </section>
+
+    <section class="page" id="match">
+      <div class="card" style="text-align:center; padding:60px 20px;">
+        <h2 class="sec" style="font-size:20px;">正在为你匹配同网吧搭子</h2>
+        <p style="color:var(--muted); margin:10px 0 20px;">优先匹配「极客电竞馆（科技园店）」的在线玩家</p>
+        <div class="btn" onclick="go('chat')">匹配成功 · 进入匿名聊天</div>
+        <p style="color:var(--muted); font-size:12px; margin-top:14px;">同网吧无人时自动降级到附近 / 全网</p>
+      </div>
+      <div class="card" style="margin-top:14px;">
+        <h2 class="sec">我的会话</h2>
+        <table>
+          <tr><th>搭子</th><th>网吧</th><th>状态</th></tr>
+          <tr><td>匿名搭子 #1024</td><td>极客电竞馆</td><td><span class="tag info">聊天中</span></td></tr>
+          <tr><td>匿名搭子 #2048</td><td>网鱼网咖</td><td><span class="tag ok">已解锁</span></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section class="page" id="chat">
+      <div class="card">
+        <h2 class="sec">匿名搭子 #1024 <span class="tag info" style="margin-left:8px;">未解锁</span></h2>
+        <div class="bubble you">在吗，打几局？</div>
+        <div class="bubble me">在，英雄联盟双排？</div>
+        <div class="bubble you">好，我打野你中单</div>
+        <div style="margin-top:14px;"><a class="btn" onclick="go('profile')">发起解锁</a><a class="btn ghost">···</a></div>
+        <p style="color:var(--muted); font-size:12px; margin-top:12px;">双方互相同意解锁后，才能看到昵称、性别、城市与常玩游戏；可随时举报或拉黑。</p>
+      </div>
+    </section>
+
+    <section class="page" id="profile">
+      <div class="card">
+        <h2 class="sec">个人资料</h2>
+        <table>
+          <tr><th>昵称</th><td>夜风</td><th>性别</th><td>男</td></tr>
+          <tr><th>城市</th><td>深圳</td><th>常玩游戏</th><td>英雄联盟 / 无畏契约</td></tr>
+        </table>
+        <p style="color:var(--muted); font-size:12px; margin-top:10px;">资料仅在双方解锁后互相可见。</p>
+      </div>
+    </section>
+
+    <section class="page" id="admin">
+      <div class="card">
+        <h2 class="sec">举报处理</h2>
+        <table>
+          <tr><th>举报人</th><th>被举报人</th><th>原因</th><th>状态</th><th>操作</th></tr>
+          <tr><td>匿名 #1024</td><td>匿名 #2048</td><td>骚扰</td><td><span class="tag warn">待处理</span></td><td><a class="btn ghost">处理</a><a class="btn ghost">驳回</a></td></tr>
+          <tr><td>匿名 #2048</td><td>匿名 #1024</td><td>广告</td><td><span class="tag ok">已处理</span></td><td><a class="btn ghost">查看</a></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section class="page" id="voice">
+      <div class="placeholder"><div class="big">语音消息</div>二期功能 · 当前为占位页 · 聊天页已保留入口</div>
+    </section>
+    <section class="page" id="merchant">
+      <div class="placeholder"><div class="big">吧主入驻</div>二期功能 · 网吧经营者门店管理 · 当前为占位页</div>
+    </section>
+    <section class="page" id="moments">
+      <div class="placeholder"><div class="big">图片动态</div>二期功能 · 个人动态与图片消息 · 当前为占位页</div>
+    </section>
+  </main>
+</div>
+
+<script>
+  const titles={login:"登录授权",cafe:"选网吧",match:"随机匹配",chat:"匿名聊天",profile:"个人资料",admin:"管理后台",voice:"语音消息（占位）",merchant:"吧主入驻（占位）",moments:"图片动态（占位）"};
+  function show(name){
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    document.getElementById(name).classList.add("active");
+    document.querySelectorAll(".nav a").forEach(a=>a.classList.toggle("active", a.dataset.page===name));
+    document.getElementById("page-title").textContent=titles[name];
+  }
+  function go(name){show(name);}
+  document.querySelectorAll(".nav").forEach(n=>n.addEventListener("click", e=>{const a=e.target.closest("a"); if(a) show(a.dataset.page);}));
+  const hash=(location.hash||"#login").slice(1);
+  if(titles[hash]) show(hash);
+</script>
+</body>
+</html>

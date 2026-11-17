@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+<rect width="1440" height="900" fill="#0d0b1a"/>
+<rect width="224" height="900" fill="#0a0816"/>
+<text x="20" y="34" fill="#00e5ff" font-size="19" font-weight="800">开黑搭子</text>
+<rect x="12" y="72" width="200" height="34" rx="8" fill="rgba(0,229,255,0.12)" stroke="rgba(0,229,255,0.4)"/>
+<text x="28" y="94" fill="#ffffff" font-size="14">登录授权</text>
+<rect x="12" y="114" width="200" height="34" rx="8" fill="none" stroke="none"/>
+<text x="28" y="136" fill="#cfcae8" font-size="14">选网吧</text>
+<rect x="12" y="156" width="200" height="34" rx="8" fill="none" stroke="none"/>
+<text x="28" y="178" fill="#cfcae8" font-size="14">随机匹配</text>
+<rect x="12" y="198" width="200" height="34" rx="8" fill="none" stroke="none"/>
+<text x="28" y="220" fill="#cfcae8" font-size="14">匿名聊天</text>
+<rect x="12" y="240" width="200" height="34" rx="8" fill="none" stroke="none"/>
+<text x="28" y="262" fill="#cfcae8" font-size="14">个人资料</text>
+<rect x="12" y="282" width="200" height="34" rx="8" fill="none" stroke="none"/>
+<text x="28" y="304" fill="#cfcae8" font-size="14">管理后台</text>
+<rect x="12" y="324" width="200" height="34" rx="8" fill="none" stroke="none"/>
+<text x="28" y="346" fill="#cfcae8" font-size="14">语音消息</text>
+<rect x="12" y="366" width="200" height="34" rx="8" fill="none" stroke="none"/>
+<text x="28" y="388" fill="#cfcae8" font-size="14">吧主入驻</text>
+<rect x="12" y="408" width="200" height="34" rx="8" fill="none" stroke="none"/>
+<text x="28" y="430" fill="#cfcae8" font-size="14">图片动态</text>
+<rect x="224" y="0" width="1216" height="64" fill="#151226" stroke="#2a2342"/>
+<text x="248" y="40" fill="#e8e6f5" font-size="20" font-weight="800">登录授权</text>
+<text x="1120" y="40" fill="#8f89ad" font-size="12">开黑搭子 · 原型线框 V1.0</text>
+<rect x="554" y="160" width="480" height="380" rx="12" fill="#151226" stroke="#2a2342"/>
+<text x="572" y="188" fill="#e8e6f5" font-size="15" font-weight="700">微信一键登录</text>
+<rect x="566" y="204" width="456" height="24" rx="5" fill="#1d1734"/>
+</svg>
